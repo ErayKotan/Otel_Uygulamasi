@@ -1,0 +1,24 @@
+oda boş mu dolu mu kontrol
+satış---
+müşteri tc den id
+giriş çıkış tarih
+oda numarası
+giriş çıkış tarih ggöre kampanya indirim oranı
+oda numarasına göre fiyat getir
+indirimli oda fiyatı
+
+create proc sp_indirimsorgu
+(
+@gelentarih datetime
+)
+as
+begin
+if exists (select KampanyaIndirimOran from tbl_Kampanyalar where KampanyaBaslangicZaman<@gelentarih and KampanyaBitisTarihi>@gelentarih)
+begin
+select KampanyaIndirimOran from tbl_Kampanyalar where KampanyaBaslangicZaman<@gelentarih and KampanyaBitisTarihi>@gelentarih order by KampanyaIndirimOran desc
+end
+else
+begin
+return '0'
+end
+end
